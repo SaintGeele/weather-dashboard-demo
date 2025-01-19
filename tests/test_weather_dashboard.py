@@ -16,6 +16,19 @@ def test_fetch_weather(dashboard, mocker):
     assert weather_data['weather'][0]['description'] == "clear sky"
 
 def test_save_to_s3(dashboard, mocker):
+    # Mock the boto3 S3 client
     mock_s3 = mocker.patch('boto3.client')
+    mock_s3.return_value.put_object.return_value = {}  # Simulate success response
+
+    # Call the save_to_s3 method
     result = dashboard.save_to_s3({"key": "value"}, "TestCity")
+
+    # Assert that the save_to_s3 method returned True
     assert result is True
+
+    # Verify that the put_object method was called with the correct arguments
+    mock_s3.return_value.put_object.assert_called_once_with(
+        Bucket="your-bucket-name",  # Replace with the actual bucket name
+        Key="TestCity.json",
+        Body='{"key": "value"}'
+    )
