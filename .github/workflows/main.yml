@@ -40,8 +40,8 @@ jobs:
           pip install -r requirements.txt
 
       # Run unit tests
-      .- name: Run Tests
-      .  run: pytest tests
+      - name: Run Tests
+        run: pytest tests
 
   deploy:
     name: Deploy
