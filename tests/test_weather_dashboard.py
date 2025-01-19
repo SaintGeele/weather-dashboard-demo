@@ -1,5 +1,5 @@
 import pytest
-from weather_dashboard import WeatherDashboard
+from src.weather_dashboard import WeatherDashboard
 
 @pytest.fixture
 def dashboard():
