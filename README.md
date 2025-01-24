@@ -49,8 +49,8 @@ pip install -r requirements.txt
 OPENWEATHER_API_KEY=your_api_key
 AWS_BUCKET_NAME=your_bucket_name
 
-4.Configure AWS credentials:
-bashCopyaws configure
+Configure AWS credentials:
+aws configure
 
 5. Run the application:
 python src/weather_dashboard.py
