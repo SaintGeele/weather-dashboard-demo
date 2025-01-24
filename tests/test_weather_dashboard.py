@@ -28,7 +28,7 @@ def test_save_to_s3(dashboard, mocker):
 
     # Verify that the put_object method was called with the correct arguments
     mock_s3.return_value.put_object.assert_called_once_with(
-        Bucket="your-bucket-name",  # Replace with the actual bucket name
+        Bucket="weather-dashboard-18398",  # Replace with the actual bucket name
         Key="TestCity.json",
         Body='{"key": "value"}'
     )
