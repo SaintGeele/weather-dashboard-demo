@@ -14,17 +14,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout the repository
+      # Step 1: Check out your repository so the runner has your code.
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Set up Python environment
+      # Step 2: Set up the Python environment.
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: "3.9"
 
-      # Cache Python dependencies
+      # Step 3: Cache your Python dependencies to speed up builds.
       - name: Cache dependencies
         uses: actions/cache@v3
         with:
@@ -33,13 +33,13 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pip-
 
-      # Install dependencies
+      # Step 4: Upgrade pip and install your project dependencies.
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # Run unit tests
+      # Step 5: Run your unit tests to ensure your code works.
       - name: Run Tests
         run: pytest tests
 
@@ -50,17 +50,17 @@ jobs:
     if: ${{ github.ref == 'refs/heads/main' }}
 
     steps:
-      # Checkout the repository
+      # Step 1: Check out your repository again.
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Set up Python environment
+      # Step 2: Set up the same Python environment.
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: "3.9"
 
-      # Cache Python dependencies
+      # Step 3: Cache dependencies (same as in the build job).
       - name: Cache dependencies
         uses: actions/cache@v3
         with:
@@ -69,11 +69,18 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pip-
 
-      # Deploy the application
+      # Step 4: Upgrade pip and install dependencies (ensuring consistency).
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # Step 5: Deploy your application.
+      # Note: If your weather dashboard starts a server or long-running process,
+      # you may want to run it in the background (using '&') or use a proper deployment service.
       - name: Deploy Application
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |
-          pip install -r requirements.txt
-          python src/weather_dashboard.py
+          python src/weather_dashboard.py &
